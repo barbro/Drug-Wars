@@ -1,0 +1,15 @@
+v0.0.1
+-game created
+-one product that you can buy and sell
+-the option to change the price randomly
+-groovy BG
+
+v0.0.2
+-setting for Object Oriented system
+-buying and selling a dynamic number
+
+v0.0.3
+-added dynamic kinds of drugs - NEED A FIX
+
+v0.1
+-all basic trading and styling are done

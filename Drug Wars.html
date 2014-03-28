@@ -1,0 +1,170 @@
+<html>
+	<head>
+		<title>Dope Wars v0.1</title>
+	</head>
+	<style>
+	body 
+	{
+		background-image:url('weed.png');
+		background-color:green;
+		font-size:20;
+		font-family:Arial;
+	}
+	tbody 
+	{
+		font-size:20;
+	}
+	table
+	{
+		border-collapse:collapse;
+	}
+	table, td, th
+	{
+		border:3px solid black;
+	}
+	td
+	{
+		padding:6px;
+		text-align:center;
+	}
+</style>
+	<body align="center">
+		<p>Money: <a id='money'></a>$</p>
+		<button onclick='Game.start()'>Refresh</button><p/>
+		<p>Drugs in eara:</p>
+		<table id='list' align='center'></table><br>
+		<p>Drugs that you have:</p>
+		<table id='drugs' align='center'></table>
+	</body>
+	<script>
+		
+		var money=1500;
+		var price=123;
+		var camoot=0;
+		var Drugs=[];
+		var Active=[];
+		
+		var Game = {
+			
+			execute: function(){
+			
+				document.getElementById("money").innerHTML=money.toString();
+				document.getElementById("drugs").innerHTML="<tr><td>Name</td><td>Amount</td><td>Cost</td></tr>"
+				for(var i=0;i<Drugs.length;i++){
+					
+					if(Drugs[i].amount>0){
+					
+						document.getElementById("drugs").innerHTML=document.getElementById("drugs").innerHTML+"<tr> <td>"+Drugs[i].name+"</td> <td>"+Drugs[i].getAverage().toString()+"</td> <td>"+Drugs[i].amount.toString()+"<td><button onclick=\'Game.sell("+i.toString()+")\'>Sell</button></td> </tr>";
+				
+					}
+					
+				}				
+				
+			},
+			
+			buy: function(i){
+				
+				if(money>=Drugs[i].tmprice){
+					
+					money-=Drugs[i].tmprice;
+					Drugs[i].amount++;
+					Drugs[i].money+=Drugs[i].tmprice;
+					Game.execute();
+					
+				} else{
+				
+					alert("NOPE!");
+				
+				}
+			},
+			
+			sell: function(i){
+				
+				if(Active.indexOf(i)!=-1){
+					
+					money+=Drugs[i].tmprice;
+					Drugs[i].money-=Drugs[i].getAverage();
+					Drugs[i].amount--;
+					Game.execute();
+				
+				} else {
+					
+					alert("you can't do dat");
+				 
+				}
+			
+			},
+			
+			changePrice: function(){
+				
+				price=100+Math.round(Math.random()*100);
+				Game.execute();
+				
+			},
+			
+			start: function(){
+			
+				Active=[]
+				document.getElementById("list").innerHTML="<tr><td>Name</td><td>Cost</td></tr>"
+				for(var i=0;i<Drugs.length;i++){
+					
+					if(Math.random()>0.5){
+						
+						Drugs[i].getPrice();
+						document.getElementById("list").innerHTML=document.getElementById("list").innerHTML + "<tr><td>"+Drugs[i].name+"</td><td>"+Drugs[i].tmprice.toString()+"</td><td><button onclick=\'Game.buy("+i.toString()+")\'>Buy</button></td></tr>"
+						Active.push(i);
+						
+					}
+				
+				}
+				
+				if(Active.length==0){
+				
+					Game.start
+				
+				}
+			
+			}
+		
+		}
+		
+		function Drug(name, min, max){
+			
+			this.name = name;
+			this.min = min;
+			this.max = max;
+			this.amount = 0;
+			this.money = 0;
+			this.tmprice = 0;
+			
+			this.getPrice = getPrice;
+			function getPrice(){
+			
+				this.tmprice=this.min+Math.round(Math.random()*(this.max-this.min));
+			
+			}
+
+			this.getAverage = getAverage;
+			function getAverage(){
+
+				return this.money/this.amount;
+			
+			}
+			
+			Drugs.push(this);
+			
+		}
+		
+		
+		var Coke = new Drug("Coke", 15000, 29000);
+		var Acid = new Drug("Acid", 1000, 4400);
+		var Ganja = new Drug("Ganja", 480, 1280);
+		var Heroin = new Drug("Heroin", 5500, 13000);
+		var Exta = new Drug("Exta", 11, 60);
+		var MDA = new Drug("MDA", 1500, 4400);
+		
+		Game.execute();
+		Game.start();
+		
+	</script>
+</html>
