@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Dope Wars v0.1</title>
+		<title>Dope Wars v0.1.1</title>
 	</head>
 	<style>
 	body 
@@ -31,7 +31,7 @@
 	<body align="center">
 		<p>Money: <a id='money'></a>$</p>
 		<button onclick='Game.start()'>Refresh</button><p/>
-		<p>Drugs in eara:</p>
+		<p>Drugs in area:</p>
 		<table id='list' align='center'></table><br>
 		<p>Drugs that you have:</p>
 		<table id='drugs' align='center'></table>
@@ -47,7 +47,7 @@
 			execute: function(){
 			
 				document.getElementById("money").innerHTML=money.toString();
-				document.getElementById("drugs").innerHTML="<tr><td>Name</td><td>Amount</td><td>Cost</td></tr>"
+				document.getElementById("drugs").innerHTML="<tr><td>Name</td><td>Cost</td><td>Amount</td></tr>"
 				for(var i=0;i<Drugs.length;i++){
 					
 					if(Drugs[i].amount>0){
@@ -64,10 +64,28 @@
 				
 				if(money>=Drugs[i].tmprice){
 					
-					money-=Drugs[i].tmprice;
-					Drugs[i].amount++;
-					Drugs[i].money+=Drugs[i].tmprice;
-					Game.execute();
+					var am = parseInt(prompt("How much "+Drugs[i].name+" do you want to buy? you can buy "+Math.floor(money/Drugs[i].tmprice).toString()+" units.", Math.floor(money/Drugs[i].tmprice).toString()));
+					
+					if(am<=money){
+						
+						if(am>0 && am%1==0){
+						
+							money-=Drugs[i].tmprice*am;
+							Drugs[i].amount+=am;
+							Drugs[i].money+=Drugs[i].tmprice*am;
+							Game.execute();
+					
+						} else{
+						
+							alert("The amount of the drug that you want to buy has to be a natural number.");
+						
+						}
+						
+					} else{
+					
+						alert("You don't have enough money to buy that amount of "+Drugs[i].name+".");
+					
+					}
 					
 				} else{
 				
@@ -80,7 +98,7 @@
 				
 				if(Active.indexOf(i)!=-1){
 					
-					var am = prompt("How many "+Drugs[i].name+" do you want to sell? you can sell "+Drugs[i].amount+" units, you will earn "+(Drugs[i].tmprice-Drugs[i].getAverage())+" dollars for each unit.", Drugs[i].amount)
+					var am = parseInt(prompt("How much "+Drugs[i].name+" do you want to sell? you can sell "+Drugs[i].amount.toString()+" units, you will earn "+(Drugs[i].tmprice-Drugs[i].getAverage().toString())+" dollars for each unit.", Drugs[i].amount.toString()));
 					
 					if(am<=Drugs[i].amount){
 						
@@ -93,19 +111,19 @@
 						
 						} else {
 						
-							alert("The amount of the drug is has to be a natural number.")
+							alert("The amount of the drug that you want to sell has to be a natural number.");
 						
 						}
 						
-					} if {
+					} else {
 					
-					alert("You ");
+					alert("You don't have this amount of "+Drugs[i].name+".");
 				 
 				}
 				
 				} else {
 					
-					alert("This drug isn't being selled in this erea.");
+					alert("This drug isn't being selled in this area.");
 				 
 				}
 			
