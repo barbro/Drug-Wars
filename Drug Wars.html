@@ -39,8 +39,6 @@
 	<script>
 		
 		var money=1500;
-		var price=123;
-		var camoot=0;
 		var Drugs=[];
 		var Active=[];
 		
@@ -58,7 +56,7 @@
 				
 					}
 					
-				}				
+				}		
 				
 			},
 			
@@ -73,7 +71,7 @@
 					
 				} else{
 				
-					alert("NOPE!");
+					alert("You don't have enough money to buy that.");
 				
 				}
 			},
@@ -82,14 +80,32 @@
 				
 				if(Active.indexOf(i)!=-1){
 					
-					money+=Drugs[i].tmprice;
-					Drugs[i].money-=Drugs[i].getAverage();
-					Drugs[i].amount--;
-					Game.execute();
+					var am = prompt("How many "+Drugs[i].name+" do you want to sell? you can sell "+Drugs[i].amount+" units, you will earn "+(Drugs[i].tmprice-Drugs[i].getAverage())+" dollars for each unit.", Drugs[i].amount)
+					
+					if(am<=Drugs[i].amount){
+						
+						if(am>0 && am%1==0){
+					
+							money+=Drugs[i].tmprice*am;
+							Drugs[i].money-=Drugs[i].getAverage()*am;
+							Drugs[i].amount-=am;
+							Game.execute();
+						
+						} else {
+						
+							alert("The amount of the drug is has to be a natural number.")
+						
+						}
+						
+					} if {
+					
+					alert("You ");
+				 
+				}
 				
 				} else {
 					
-					alert("you can't do dat");
+					alert("This drug isn't being selled in this erea.");
 				 
 				}
 			
